@@ -1,0 +1,42 @@
+#!/bin/csh -f
+
+
+# Set the location of the system to help in configuring the machine names.
+# The location is simply a 2-character code stored in the '_location' file
+# in the top directory, values may be:
+#
+#       "CR"            => Tucson Clean Room
+#       "FR"            => Tucson Flex Rig
+#       "KP"            => KPNO 4-meter
+#       "CT"            => CTIO 4-meter
+#
+setenv LOC      `cat /ndhs/_location`
+
+#-------------------------------------------------------------------------------
+
+
+if (`uname -s` == "Darwin") then
+    set pflags = "-augxww"
+else
+    set pflags = "-efw"
+endif
+set pfiles = "/tmp/pvm*50*"
+
+echo halt | pvm 						>& /dev/null
+#foreach p (`ps $pflags | grep pvmd3 | awk '{print($2)}'`)
+#    kill -9 $p >& /dev/null
+#end
+/bin/rm -f $pfiles 						>& /dev/null
+
+/bin/sh -c "ssh nfdhs-01${LOC} /ndhs/bin/kpvm"
+/bin/sh -c "ssh nfdhs-02${LOC} /ndhs/bin/kpvm"
+
+cat > /tmp/ndhs_pvm.cmds << EOF_PVM
+add nfdhs-01${LOC}
+add nfdhs-02${LOC}
+add nfdca${LOC}
+quit
+EOF_PVM
+
+pvm < /tmp/ndhs_pvm.cmds 					>& /dev/null
+echo conf | pvm 

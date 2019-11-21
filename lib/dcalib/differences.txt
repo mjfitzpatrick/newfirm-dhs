@@ -1,0 +1,150 @@
+48c48
+<     char *node, *sm, *ip, *op;
+---
+>     char *node, *ip, *op;
+55c55
+< 
+---
+>     /* fprintf (stderr, "dcaGetNode: dev='%s'  => node='%s'\n", device, node); */
+69a70
+>     /* fprintf (stderr, "dcaGetPort: dev='%s'  => port=%d\n", device, port); */
+94c95
+<      int istat, size;
+---
+>      int istat=0, size=0;
+102,103c103,107
+<      istat = dcaSendMsg(socket,dcaFmtMsg ((XLONG )DCA_GET|DCA_DCADEV,
+< 	(XLONG )NULL));
+---
+>      /* (void) fprintf (stderr, "Getting Collector device....sock=%d, istat=%d, size=%d\n", socket,istat,size); */
+>      /* (void) fflush(stderr); */
+>      istat = dcaSendMsg(socket,dcaFmtMsg ((XLONG)DCA_GET|DCA_DCADEV,(XLONG)NULL));
+>      /* (void) fprintf (stderr, "Waiting for Collector device....sock=%d, istat=%d, size=%d\n", socket,istat,size); */
+>      /* (void) fflush(stderr); */
+105c109,112
+< 
+---
+>      /* (void) fprintf (stderr, "Got Collector device....sock=%d, istat=%d, size=%d\n", socket,istat,size); */
+>      /* (void) fflush(stderr); */
+>      /* (void) fprintf (stderr, "Got Collector device....dev='%s'\n", dev); */
+>      /* (void) fflush(stderr); */
+99c99,100
+<     sprintf (dcaHost->ip_addr, "%s\0", inet_ntoa(h_addr));
+---
+>     (void) memset(dcaHost->ip_addr, '\0', SZ_FNAME); 
+>     sprintf (dcaHost->ip_addr, "%s", inet_ntoa(h_addr));
+39,40c39,40
+<     mh->addr   = (long)va_arg(ap, void *);
+<     if (mh->addr == (long) NULL) {
+---
+>     mh->addr = (XLONG)va_arg(ap, void *);
+>     if (mh->addr == (XLONG) NULL) {
+59,60c59,60
+< 	fprintf (stderr, "Header; size=%d  %d\n", sizeof(msgType), msg->size);
+< 	fprintf (stderr, "      ; type=%d  whoami=%d\n", msg->type,msg->whoami);
+---
+> 	fprintf (stderr, "Header; size=%d  %d\n", (int)sizeof(msgType), (int)msg->size);
+> 	fprintf (stderr, "      ; type=%d  whoami=%d\n", (int)msg->type,(int)msg->whoami);
+27c27
+< void dcaSockConnect(int *sock, int port, char *ssadr);
+---
+> extern int dcaUseSim(void);
+10d9
+< #include <stdlib.h>
+11a11,15
+> #include <sys/time.h>
+> #include <sys/types.h>
+> #include <unistd.h>
+> #include <stdlib.h>
+> #include <string.h>
+16d19
+< /*
+18,20d20
+< */
+< #define SELWIDTH	FD_SETSIZE
+< 
+34,35c34,35
+<     int curlen = size, tot = 0, n, debug;
+<     int recvMsgSize; 
+---
+>     int curlen=size, tot=0, n=0, fds=socket+1, debug;
+>     int recvMsgSize=0; 
+38,40c38
+< 
+<     if ( (debug = SR_DEBUG) ) 
+< 	fprintf (stderr, "dcaRecv expecting: %d on fd=%d\t", size, socket);
+---
+>     if ( (debug = SR_DEBUG) ) fprintf (stderr, "dcaRecv expecting: %d on fd=%d\n", size, socket);
+45c43,46
+< 	if ((n = select (SELWIDTH, &allset, NULL, NULL, NULL)) < 0) {
+---
+>         if ( (debug = SR_DEBUG) ) fprintf (stderr, "select reading: %d fds\n", fds);
+> 	n = select (fds, &allset, (fd_set *)NULL, (fd_set *)NULL, (struct timeval *)NULL);
+>         if ( (debug = SR_DEBUG) ) fprintf (stderr, "select returns: %d\n", n);
+> 	if ( n < 0) {
+47c47
+< 	return;
+---
+> 	return 0;
+49a50
+>     return 0;
+25c25
+< 
+---
+> in_addr_t inet_addr(const char *cp);
+49,50c49
+< static int dcaSupParseNode (char *host, int port, unsigned short *host_port, 
+< 				unsigned long *host_addr);
+---
+> static int dcaSupParseNode (char *host, int port, unsigned short *host_port, unsigned long *host_addr);
+67c66
+<     int	  omain, fd, rfd;
+---
+>     int	  fd, rfd;
+108c107
+<     bzero (msg, SZMSG);
+---
+>     memset (msg, '\0', SZMSG);
+110c109
+<         sprintf (msg, "sup_connect %s@%s:%d\0", name, hostname, pid);
+---
+>         sprintf (msg, "sup_connect %s@%s:%d", name, hostname, pid);
+113c112
+<         sprintf (msg, "sup_connect %s@%s.%s:%d\0", name, hostname, domain, pid);
+---
+>         sprintf (msg, "sup_connect %s@%s.%s:%d", name, hostname, domain, pid);
+139,140c138,139
+<     bzero (msg, SZMSG); 		/* tell em we're ready  */
+<     sprintf (msg, "sup_ready rc_%s@%s.%s:%d\0", name, hostname, domain, pid);
+---
+>     memset (msg, '\0', SZMSG);
+>     sprintf (msg, "sup_ready rc_%s@%s.%s:%d", name, hostname, domain, pid);
+150,151c149,150
+<     bzero (msg, SZMSG); 			
+<     sprintf (msg, "Client ready ...\0");
+---
+>     memset (msg, '\0', SZMSG);
+>     sprintf (msg, "Client ready ...");
+175,176c174,175
+<     bzero (msg_buf, SZMSG);			/* send the status msg	*/
+<     sprintf (msg_buf, "sup_status %s\0", msg);
+---
+>     memset (msg_buf, '\0', SZMSG);			/* send the status msg	*/
+>     sprintf (msg_buf, "sup_status %s", msg);
+196,197c195,196
+<     bzero (msg, SZMSG);
+<     sprintf (msg, "sup_quit\0");		/* tell em we're leaving */
+---
+>     memset (msg, '\0', SZMSG);
+>     sprintf (msg, "sup_quit");		/* tell em we're leaving */
+199c198
+<     close (fd);					/* close the socket	 */
+---
+>     return close (fd);					/* close the socket	 */
+261c260
+<     char     *ip, lhost[SZMSG], port_str[SZMSG], host_str[SZMSG];
+---
+>     char     *ip=(char *)NULL, lhost[SZMSG], port_str[SZMSG], host_str[SZMSG];
+263d261
+<     struct   servent *sv;
+diff: /home/monsoon/src/Util/dhsLibraries/_netw/t_arg.c: No such file or directory

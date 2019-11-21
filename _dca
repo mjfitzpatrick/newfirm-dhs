@@ -1,0 +1,107 @@
+new-tucana> dcastart -d 2
+2 dca_register: delete registry mosdca=262149
+1 dca_main: starting DCA, pid=25542 tid=262161
+2 SetParam: directory = `/u4/rawdat'
+1 SetParam: [0] set directory to /u4/rawdat
+1 StartReadout: [262162] ------- imagename=zero.002 imagetype=bias -------
+1 dsim_Open: [262162] create succeeded for zero.002
+1 ConfigureImage: [262162] name=zero.002 type=bias nimages=8
+2 ConfigureImage: [262162] 1: nam= typ= pty=4 axes=2[2136,4096] ext=0
+2 ConfigureImage: [262162] 2: nam= typ= pty=4 axes=2[2136,4096] ext=0
+2 ConfigureImage: [262162] 3: nam= typ= pty=4 axes=2[2136,4096] ext=0
+2 ConfigureImage: [262162] 4: nam= typ= pty=4 axes=2[2136,4096] ext=0
+2 ConfigureImage: [262162] 5: nam= typ= pty=4 axes=2[2136,4096] ext=0
+2 ConfigureImage: [262162] 6: nam= typ= pty=4 axes=2[2136,4096] ext=0
+2 ConfigureImage: [262162] 7: nam= typ= pty=4 axes=2[2136,4096] ext=0
+2 ConfigureImage: [262162] 8: nam= typ= pty=4 axes=2[2136,4096] ext=0
+1 WriteHeaderData: [262162] begin asynchronous write sequence
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=2
+2 WriteHeaderData: [262162] kwgroup=ACEB001_AMP12 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB001_AMP14 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB002_AMP12 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB002_AMP14 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB003_AMP21 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB003_AMP23 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB004_AMP21 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB004_AMP23 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ics nkeywords=22
+2 WriteHeaderData: [262162] kwgroup=NULL nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=1
+2 WriteHeaderData: [262162] kwgroup=NULL nkeywords=3
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=2
+2 WriteHeaderData: [262162] kwgroup=OBSERVATORY nkeywords=1
+2 WriteHeaderData: [262162] kwgroup=TELESCOPE nkeywords=1
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB004 nkeywords=2
+2 WriteHeaderData: [262162] kwgroup=ACEB004_AMP21 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB004_AMP23 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB003 nkeywords=2
+2 WriteHeaderData: [262162] kwgroup=ACEB003_AMP21 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB003_AMP23 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB002 nkeywords=2
+2 WriteHeaderData: [262162] kwgroup=ACEB002_AMP12 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB002_AMP14 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB001 nkeywords=2
+2 WriteHeaderData: [262162] kwgroup=ACEB001_AMP12 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB001_AMP14 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB001 nkeywords=2
+1 DCA_Synchronize: [262162] synch after 33 header 0 data packets, iostat=0
+1 DCA_Synchronize: [262162] synch after 0 header 0 data packets, iostat=0
+1 DCA_Synchronize: [262162] synch after 0 header 0 data packets, iostat=0
+1 DCA_Synchronize: [262162] synch after 0 header 0 data packets, iostat=0
+1 DCA_Synchronize: [262162] synch after 0 header 0 data packets, iostat=0
+1 WriteHeaderData: [262162] begin asynchronous write sequence
+2 WriteHeaderData: [262162] kwgroup=ACEB004 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB003 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB002 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB004 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB004_AMP21 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB004_AMP23 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB003 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB003_AMP21 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB003_AMP23 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=ACEB002 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB002_AMP12 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB002_AMP14 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB001 nkeywords=5
+2 WriteHeaderData: [262162] kwgroup=PRIMARY nkeywords=8
+2 WriteHeaderData: [262162] kwgroup=ACEB001 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB001_AMP12 nkeywords=4
+2 WriteHeaderData: [262162] kwgroup=ACEB001_AMP14 nkeywords=4
+1 EndReadout: [262162] normal end of readout
+2 EndReadout: [262162] inkwdbs=`PRIMARY ACEB001_AMP12 ACEB001_AMP14
+ACEB002_AMP12 ACEB002_AMP14 ACEB003_AMP21 ACEB003_AMP23 ACEB004_AMP21
+ACEB004_AMP23 ics NULL OBSERVATORY TELESCOPE ACEB004 ACEB003 ACEB002 ACEB001'
+2 EndReadout: [262162] translate keywords...
+2 EndReadout: [262162] KTM = /iraf/msgbus/lib/generic.tcl
+2 RunTcl: [262162] execute script /iraf/msgbus/lib/generic.tcl
+1 generic.tcl [262162]: imagename=`zero.002' imagetype=`bias'
+1 generic.tcl [262162]: nimages=8 ushort 2136x4096
+2 generic.tcl [262162]: seqno=262162 iostat=0 nkwdb=17
+2 generic.tcl [262162]: maxgkw=576 maxikw=100 dsim=0xca3c8
+2 generic.tcl [262162]: imagefile=`zero.002'
+2 generic.tcl [262162]: ktmfile=`/iraf/msgbus/lib/generic.tcl'
+1 generic.tcl [262162]: begin generic keyword translation
+1 generic.tcl [262162]: WARNING: generic KTM is for testing only
+1 generic.tcl [262162]: adding 264 keywords to PHU
+1 generic.tcl [262162]: generic keyword translation done
+2 RunTcl: [262162] script completed with no errors
+2 EndReadout: [262162] write keywords to image...
+1 EndReadout: [262162] Updating image headers
+2 EndReadout: [262162] Updating header for kwdb=phu, image=0
+2 EndReadout: [262162] Updating header for kwdb=im1, image=1
+2 EndReadout: [262162] Updating header for kwdb=im2, image=2
+2 EndReadout: [262162] Updating header for kwdb=im3, image=3
+2 EndReadout: [262162] Updating header for kwdb=im4, image=4
+2 EndReadout: [262162] Updating header for kwdb=im5, image=5
+2 EndReadout: [262162] Updating header for kwdb=im6, image=6
+2 EndReadout: [262162] Updating header for kwdb=im7, image=7
+2 EndReadout: [262162] Updating header for kwdb=im8, image=8
+1 EndReadout: [262162] close image, status=0 iostat=0
+

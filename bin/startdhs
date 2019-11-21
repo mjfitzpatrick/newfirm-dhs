@@ -1,0 +1,115 @@
+#!/bin/csh
+
+# Set the location of the system to help in configuring the machine names.
+# The location is simply a 2-character code stored in the '_location' file
+# in the top directory, values may be:
+#
+#	"CR"		=> Tucson Clean Room
+#	"FR"		=> Tucson Flex Rig
+#	"KP"		=> KPNO 4-meter
+#	"CT"		=> CTIO 4-meter
+#
+setenv LOC	`cat /ndhs/_location`
+echo "Using newfirm${LOC} ..."
+
+if ($?DISPLAY) then
+    setenv USER_DISPLAY 	$DISPLAY
+else
+    setenv USER_DISPLAY 	localhost:0.0
+endif
+#echo "ON ENTRY> Using DISPLAY ${DISPLAY} ..."
+#echo "ON ENTRY> Using USER_DISPLAY ${USER_DISPLAY} ..."
+#setenv USER_DISPLAY 	nutmeg.kpno.noao.edu:0.1
+#setenv USER_DISPLAY 	denali.tuc.noao.edu:0.0
+#setenv USER_DISPLAY 	localhost:0.0
+setenv DISPLAY 		newfirm${LOC}:1.0
+setenv RTD		fast:inet:3200:newfirm${LOC}:1.0
+#echo "Using DISPLAY ${DISPLAY} ..."
+#echo "Using RTD ${RTD} ..."
+
+#-------------------------------------------------------------------------------
+
+echo "Sync'ing /ndhs Directory... via /ndhs/bin/syncdhs"
+echo ""
+cp /ndhs/dhssup/super /ndhs/bin
+/ndhs/bin/syncdhs						>& /dev/null
+
+echo "Cleaning up earlier DHS.... via /ndhs/bin/pvmclean"
+echo ""
+cat /tmp/mosdca.log >> /tmp/mosdca.log.OLD
+cat /tmp/dhssup.log >> /tmp/dhssup.log.OLD
+/ndhs/bin/pvmclean
+#/ndhs/dev/zzkpvm
+echo ""
+
+#echo "BEFORE VNCSERVER> Using DISPLAY ${DISPLAY} ..."
+#echo "BEFORE VNCSERVER> Using USER_DISPLAY ${USER_DISPLAY} ..."
+echo "Re-Starting VNC for DHS...."
+echo ""
+vncserver -kill :1						>& /dev/null
+vncserver -geometry 1280x1024 -depth 8 -cc 3			>& /dev/null
+
+#echo "BEFORE VNCVIEWER> Using DISPLAY ${DISPLAY} ..."
+#echo "BEFORE VNCVIEWER> Using USER_DISPLAY ${USER_DISPLAY} ..."
+echo "Starting VNC viewer...."
+(vncviewer -passwd /ndhs/lib/vnc/passwd -display $USER_DISPLAY :1 >& /dev/null &)
+
+echo "Starting DHS...."
+echo ""
+
+ 	
+set rawDir   = "/home/data/"
+set procDir  = "/home/data/"
+set fileRoot = "image"
+
+echo "init rawDir = " ${rawDir}
+
+if ($#argv > 0) then
+    if ("$1" == "-rawDir") then
+	set rawDir = "$2"
+    else if ("$1" == "-procDir") then
+	set procDir = "$2"
+    else if ("$1" == "-fileRoot") then
+	set fileRoot = "$argv[2]"
+    endif
+endif
+
+set XTERM	= "xterm -ls -sl 4096"
+
+#--------------
+# Collectors
+#--------------
+(sleep 10; ssh nfdhs-01${LOC} $XTERM -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+0+400 -e /ndhs/bin/collector -console -mbus -port 4575 -debug 60 -id NOCS & ) &
+
+(sleep 11; ssh nfdhs-01${LOC} $XTERM -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+0+350 -e /ndhs/bin/collector -console -mbus -port 4576 -debug 60 -id PanA & ) &
+
+(sleep 12; ssh nfdhs-02${LOC} $XTERM -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+300+350 -e /ndhs/bin/collector -console -mbus -port 4577 -debug 60 -id PanB & ) &
+
+#--------------
+# SMC Managers
+#--------------
+(sleep 13; ssh nfdhs-01${LOC} $XTERM -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+0+450 -e /ndhs/bin/smcmgr -console -trim -mbus -dev $RTD -debug 60 & ) &
+
+(sleep 14; ssh nfdhs-02${LOC} $XTERM -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+300+400 -e /ndhs/bin/smcmgr -console -trim -mbus -dev $RTD -debug 60 & ) &
+
+#--------------
+# Picfeeds
+#--------------
+(sleep 15; ssh nfdhs-01${LOC}  $XTERM -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+0+500 -e /ndhs/bin/pxf -console -mbus -debug 60 & ) &
+
+(sleep 16; ssh nfdhs-02${LOC}  $XTERM -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+300+450 -e /ndhs/bin/pxf -console -mbus -debug 60 & ) &
+
+#--------------
+# DCA
+#-------------
+(sleep 25; ssh nfdca${LOC} $XTERM -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+645+360 -e /ndhs/dev/z.mosdca & ) &
+
+#--------------
+# IRAF Window
+#-------------
+(sleep 20 ; xgterm -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x40+10+100 -e cl & ) &
+
+echo "last rawDir = " ${rawDir}
+
+exec $XTERM -display :1.0 -fn fixed -geometry 80x22+645+40 -e /ndhs/dev/z.super ${rawDir}
+

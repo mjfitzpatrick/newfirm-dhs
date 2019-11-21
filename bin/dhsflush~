@@ -1,0 +1,13 @@
+#!/bin/csh -f
+
+# increment the sequence number.
+set seqno = `cat ~/.seqno`
+echo `expr $seno + 1`  > ~/.seqno
+
+echo "************"					>> /tmp/dhssup.log
+echo "************"					>> /tmp/dhssup.log
+echo "DHS FLUSH RUN at `date` on expID $1"		>> /tmp/dhssup.log
+echo "************"					>> /tmp/dhssup.log
+echo "************"					>> /tmp/dhssup.log
+
+/ndhs/test/dhscmd -group SMCMgr -expid $1

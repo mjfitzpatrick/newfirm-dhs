@@ -1,0 +1,4 @@
+#!/bin/csh -f 
+
+exec /ndhs/bin/super -port 4150 -console -rawDir $1 -procDir $1 -config /ndhs/lib/config.null -nclients 8 -geometry 640x630+0+40 |& tee /tmp/dhssup.log
+#exec /ndhs/bin/super -port 4150 -console -config /ndhs/lib/config.null -nclients 8 -geometry 640x630+0+40 |& tee /tmp/dhssup.log

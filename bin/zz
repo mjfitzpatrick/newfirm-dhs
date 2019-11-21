@@ -1,0 +1,19 @@
+#!/bin/csh -f
+
+
+loop:
+
+set l = ` ssh nfdhs-01-kp smcmgr -lpages |& awk '{print $6}' |& grep 2454 | sort -n | uniq`
+
+echo "list is " $l
+
+if ($l != "") then
+    foreach exp { $l } 
+        echo /ndhs/test/dhscmd -group SMCMgr -expid $exp
+        #/ndhs/test/dhscmd -group SMCMgr -expid $exp
+	sleep 15
+    end
+endif
+
+sleep 1
+goto loop

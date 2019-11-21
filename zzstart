@@ -1,0 +1,77 @@
+#!/bin/csh -f 
+
+# Set the location of the system to help in configuring the machine names.
+# The location is simply a 2-character code stored in the '_location' file
+# in the top directory, values may be:
+#
+#	"CR"		=> Tucson Clean Room
+#	"FR"		=> Tucson Flex Rig
+#	"KP"		=> KPNO 4-meter
+#	"CT"		=> CTIO 4-meter
+#
+setenv LOC	`cat /ndhs/_location`
+
+setenv USER_DISPLAY 	140.252.52.246:0.0
+#setenv USER_DISPLAY 	$DISPLAY
+#setenv USER_DISPLAY 	localhost:0.0
+setenv DISPLAY 		newfirm${LOC}:1.0
+setenv RTD		fast:inet:3200:newfirm${LOC}:1.0
+
+#-------------------------------------------------------------------------------
+
+
+
+echo "Data Directory..."
+echo ""
+ls /home/data
+echo ""
+
+
+echo "Cleaning up...."
+echo ""
+/ndhs/dev/zzkpvm
+echo ""
+
+
+echo "Re-Starting VNC for DHS...."
+echo ""
+vncserver -kill :1						>& /dev/null
+vncserver -geometry 1280x1024 -depth 8 -cc 3			>& /dev/null
+
+echo "Starting VNC viewer...."
+(vncviewer -passwd /ndhs/lib/vnc/passwd -display $USER_DISPLAY :1	>& /dev/null &)
+
+
+echo "Starting DHS...."
+echo ""
+
+
+#--------------
+# Collectors
+#--------------
+(sleep 10; ssh nfdhs-01${LOC} xterm -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+0+400 -e /ndhs/bin/collector -console -mbus -port 4575 -debug 60 -id NOCS & ) &
+
+(sleep 11; ssh nfdhs-01${LOC} xterm -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+0+350 -e /ndhs/bin/collector -console -mbus -port 4576 -debug 60 -id PanA & ) &
+
+(sleep 12; ssh nfdhs-02${LOC} xterm -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+300+350 -e /ndhs/bin/collector -console -mbus -port 4577 -debug 60 -id PanB & ) &
+
+#--------------
+# SMC Managers
+#--------------
+(sleep 13; ssh nfdhs-01${LOC} xterm -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+0+450 -e /ndhs/bin/smcmgr -console -mbus -dev $RTD -debug 60 & ) &
+
+(sleep 14; ssh nfdhs-02${LOC} xterm -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+300+400 -e /ndhs/bin/smcmgr -console -mbus -dev $RTD -debug 60 & ) &
+
+#--------------
+# Picfeeds
+#--------------
+(sleep 15; ssh nfdhs-01${LOC}  xterm -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+0+500 -e /ndhs/bin/pxf -console -mbus -debug 60 & ) &
+
+(sleep 16; ssh nfdhs-02${LOC}  xterm -iconic -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+300+450 -e /ndhs/bin/pxf -console -mbus -debug 60 & ) &
+
+#--------------
+# DCA
+#-------------
+(sleep 20; ssh nfdca${LOC} xterm -display newfirm${LOC}:1.0 -fn fixed -geometry 80x20+645+360 -e /ndhs/bin/mosdca -debug 2 -reqlevel 2 -vminit cachesize=312m -imformat %N -maxgkw 256 -maxikw 256 -dir /home/data -ktm /ndhs/lib/newfirm.tcl & ) &
+
+exec xterm -display :1.0 -fn fixed -geometry 80x22+645+40 -e /ndhs/bin/super -port 4150 -console -config /ndhs/lib/config.null -nclients 8 -geometry 640x630+0+40

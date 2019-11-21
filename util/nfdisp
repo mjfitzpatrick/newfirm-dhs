@@ -1,0 +1,139 @@
+#!/bin/csh -f
+
+
+#############################################################################
+# Process command line options.
+#############################################################################
+
+limit stacksize unlimited
+
+if ($#argv < 1) then
+    echo ""
+    echo "Usage:  nfdisp [-a | -b] [-d <data_dir>] [-t] <filename>"
+    echo ""
+    exit 1
+endif
+
+set LOC     = `cat /ndhs/_location`
+
+set pan     = "a${LOC}"
+set data    = "/data"
+set tmpfile = "no"
+set fname   = ""
+set hist    = "no"
+set sep     = 0
+
+while ("$1" != "")
+    switch ("$1")
+    case -a:                            # set PAN to use
+        set pan = "a${LOC}KP"
+        breaksw
+    case -b:                            # set PAN to use
+        set pan = "b${LOC}KP"
+        breaksw
+    case -t:                            # use a temp file
+	set tmpfile = "yes"
+        breaksw
+    case -d:                            # set data directory
+        set data = "$2"
+        breaksw
+    case -h:                            # print help summary
+        set hist = "yes"
+        breaksw
+    case -s:                            # SEP image
+    case -sep:
+        set sep = 1
+        breaksw
+    case -help:
+        echo "Usage:  nfdisp [-a | -b] [-d <data_dir>] [-t] <filename>"
+	exit 0
+    default:
+        set fname = $1
+        breaksw
+    endsw
+
+    if ("$2" == "") then
+        break
+    else
+        shift
+    endif
+end
+
+
+if ($fname == "") then
+    echo "Error: No filename specified"
+    echo ""
+    echo "Usage:  nfdisp [-a | -b] [-d <data_dir>] [-t] <filename>"
+    echo ""
+    exit 1
+endif
+
+
+#  Check for a working DS9 we can use w/ XPA, if not found start one and
+#  configure it.
+if (`xpaaccess ds9` == "no") then
+     # Start a workable DS9
+     ds9 -xpa yes & 
+     sleep 5
+
+     # Initialize our settings
+     xpaset -p ds9 scale mode zscale
+     xpaset -p ds9 view horzgraph yes
+     xpaset -p ds9 view vertgraph yes
+endif
+
+# Copy over and display the file.
+if (! -e $fname) then
+    if ("$LOC" == "-KP") then
+        scp monsoon@nfpan-${pan}.kpno.noao.edu:${data}/$fname .
+    else
+        scp monsoon@nfpan-${pan}.tuc.noao.edu:${data}/$fname .
+    endif
+endif
+cat $fname:t | xpaset ds9 fits medatacube
+
+
+# Print some pixel statistics.
+
+# First, dump the IMSTAT pars
+set fil = $fname:t
+
+if ($sep == 1) then
+
+cat << EOF_IMPARS_SEP > /tmp/impars
+imstatistics.images = "${fil}[1],${fil}[2]"
+imstatistics.fields = "image,npix,mean,stddev,min,max"
+imstatistics.lower = INDEF
+imstatistics.upper = INDEF
+imstatistics.nclip = 0
+imstatistics.lsigma = 3.
+imstatistics.usigma = 3.
+imstatistics.binwidth = 0.1
+imstatistics.format = yes
+imstatistics.cache = no
+imstatistics.mode = "ql"
+EOF_IMPARS_SEP
+
+else
+
+cat << EOF_IMPARS_NOSEP > /tmp/impars
+imstatistics.images = "${fil}[2],${fil}[3]"
+imstatistics.fields = "image,npix,mean,stddev,min,max"
+imstatistics.lower = INDEF
+imstatistics.upper = INDEF
+imstatistics.nclip = 0
+imstatistics.lsigma = 3.
+imstatistics.usigma = 3.
+imstatistics.binwidth = 0.1
+imstatistics.format = yes
+imstatistics.cache = no
+imstatistics.mode = "ql"
+EOF_IMPARS_NOSEP
+
+endif
+/iraf/iraf/bin.redhat/x_images.e imstatistics @/tmp/impars
+
+/bin/rm -f /tmp/impars
+if ($tmpfile == "yes") then
+    /bin/rm -f $fname:t
+endif

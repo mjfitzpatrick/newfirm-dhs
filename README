@@ -1,0 +1,93 @@
+
+NEWFIRM DHS Software Release
+
+###############################################################################
+Release History:
+	V1.0 	Fri Mar 21 00:50:14 MST 2006
+
+###############################################################################
+
+Directory Contents:
+-------------------
+
+    README	    - This File
+
+    bin		    - Application bin directory.  Users need not put this
+		      in their path unless they need to start clients directly,
+	 	      the DHS is started/stopped using the 'startdhs' and 
+		      'stopdhs' scripts in this directory.
+
+    client	    - Example/Test client app
+
+    collector	    - Source directory for the collector component.  The
+		      collector receives pixel/metadata from the PanSaver 
+		      and stores the result in the SMC.
+
+    dev		    - Development scripts/utilities.  These are mostly used
+		      as convenience routines for development however some
+		      have made their way into the deployed system (e.g.
+		      the 'z.mosdca' as a startup script so we can capture
+		      the DCA output for debugging).
+
+    dhssup	    - DHS Supervisor source code.  This is the orchestrator
+		      application with a GUI.
+
+    doc  	    - A sadly empty documentation directory.
+
+    include  	    - Header files from interfaces used in clients
+
+    lib		    - DHS Interface libraries
+     lib/NOCS.map      - KTM keyword mapping for NOCS metadata
+     lib/PAN.map       - KTM keyword mapping for PAN metadata
+
+     lib/newfirm.dat      - KTM data for ccd layout, WCS template, etc
+     lib/newfirm.tcl      - KTM entry point
+     lib/newfirmsrc.tcl   - KTM source code (does the real work)
+
+     lib/config.null   - Configuration file
+     lib/config.sim    - Configuration file (for simulator)
+
+     lib/generic.tcl   - Generic do-nothing KTM code
+     lib/hosts	       - IRAF networking host-table used by QL pipeline
+
+     lib/_netw      - API used by PAN/NOCS (Nick or Phil's version)
+     lib/cdl	    - Client-Display Library used for Real-Time Display
+     lib/cfitsio    - CFITSIO code for use by PXF when writing local files
+     lib/dcalib     - Utility routines for talking to the PAN/NOCS clients 
+     lib/dhslib     - API used by PAN/NOCS for talking to the DHS
+     lib/ndhs	    - Utility routines for handling DHS readout sequences.
+		      NOTE:  the ndhsConfigureImage() procedure here contains
+		  	     instrument-specific params
+     lib/msg	    - Message Bus abstract interface library.  Used by clients
+		      to send/recv messages via the message bus rather than
+		      use PVM directly
+     lib/pvm3	    - PVM message bus source code
+     lib/smc	    - Shared-Memory Cache Interface library
+     lib/vnc	    - Password and startup files for VNC
+
+    lib32  	    - 32-bit X11 libraries used when not available on some
+		      platforms (e.g. 64-bit)
+
+    mosdca	    - DCA source code.  This is only slightly modified from
+		      the original (i.e. Arcon-based) DCA.
+
+    pxf		    - Source directory for the PXF component.  The PXF
+		      monitors the SMC for new data and creates a FITS image
+		      on disk.
+
+    smcmgr	    - Source directory for the Shared Memory Cache (SMC)
+		      Manager.  The SMCMGR rectifies the pixel arrays so they
+		      are properly rotated for display to the RTD and when
+		      written to the FITS file (i.e. LL corner is 1st pixel).
+
+    test	    - Sample test directory.  Code in here is meant to 
+		      simulate the instrument readout, with separate clients
+		      acting as the NOCS/PAN and the 'exp' task controlling
+		      the sequence the way the instrument would.
+
+    util	    - Utility scripts.  May or may not be useful.
+
+    x11iraf	    - X11IRAF
+
+    zzkpvm	    - Convenience link to nuke all PVM/SMC traces on the
+		      machine

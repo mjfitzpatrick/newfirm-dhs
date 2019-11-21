@@ -1,0 +1,19 @@
+#!/bin/csh -f
+
+# Set the location of the system to help in configuring the machine names.
+# The location is simply a 2-character code stored in the '_location' file
+# in the top directory, values may be:
+#
+#       "CR"            => Tucson Clean Room
+#       "FR"            => Tucson Flex Rig
+#       "KP"            => KPNO 4-meter
+#       "CT"            => CTIO 4-meter
+#
+setenv LOC      `cat /ndhs/_location`
+
+#-------------------------------------------------------------------------------
+
+
+# Clean out the SMC on the DHS nodes.
+/bin/sh -c "ssh nfdhs-01${LOC} /ndhs/bin/smclean"
+/bin/sh -c "ssh nfdhs-02${LOC} /ndhs/bin/smclean"

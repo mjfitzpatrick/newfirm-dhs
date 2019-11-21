@@ -1,0 +1,111 @@
+==5971== 
+==5971== ERROR SUMMARY: 2833 errors from 33 contexts (suppressed: 171 from 3)
+==5971== malloc/free: in use at exit: 1,641,196 bytes in 9,207 blocks.
+==5971== malloc/free: 19,190 allocs, 9,983 frees, 10,308,567 bytes allocated.
+==5971== For counts of detected errors, rerun with: -v
+==5971== searching for pointers to 9,207 not-freed blocks.
+==5971== checked 6,524,424 bytes.
+==5971== 
+==5971== 
+==5971== 1 bytes in 1 blocks are definitely lost in loss record 1 of 137
+==5971==    at 0x401A826: malloc (vg_replace_malloc.c:149)
+==5971==    by 0x40542CA: XtMalloc (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x4054427: __XtMalloc (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x408E601: _XtVaToTypedArgList (in
+/usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x408D374: XtVaGetApplicationResources (in
+/usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x804F8B6: main (super.c:96)
+==5971== 
+==5971== 
+==5971== 16 bytes in 1 blocks are possibly lost in loss record 20 of 137
+==5971==    at 0x401A826: malloc (vg_replace_malloc.c:149)
+==5971==    by 0x80B11A2: EnvInit (tclEnv.c:526)
+==5971==    by 0x80B0B93: TclSetupEnv (tclEnv.c:122)
+==5971==    by 0x80A8F40: Tcl_CreateInterp (tclBasic.c:222)
+==5971==    by 0x808CC3C: ParameterClassInit (param.c:109)
+==5971==    by 0x808AFFE: ObmOpen (Obm.c:131)
+==5971==    by 0x804F8D0: main (super.c:105)
+==5971== 
+==5971== 
+==5971== 63 bytes in 3 blocks are definitely lost in loss record 42 of 137
+==5971==    at 0x401A826: malloc (vg_replace_malloc.c:149)
+==5971==    by 0x811E9F4: strdup (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x8054341: mType (supPanHandler.c:452)
+==5971==    by 0x805357A: superHandleClient (supPanHandler.c:86)
+==5971==    by 0x80570BE: supClientIO (supSocket.c:465)
+==5971==    by 0x406F082: (within /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x406F501: XtAppNextEvent (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x4063ACB: XtAppMainLoop (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x804FDF2: main (super.c:217)
+==5971== 
+==5971== 
+==5971== 244 bytes in 61 blocks are definitely lost in loss record 75 of 137
+==5971==    at 0x401BC54: calloc (vg_replace_malloc.c:279)
+==5971==    by 0x8070BFA: mbusRecv (mbRecv.c:66)
+==5971==    by 0x8051D9E: mbusMsgHandler (supIO.c:149)
+==5971==    by 0x406EFF2: (within /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x406F501: XtAppNextEvent (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x4063ACB: XtAppMainLoop (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x804FDF2: main (super.c:217)
+==5971== 
+==5971== 
+==5971== 287 (41 direct, 246 indirect) bytes in 1 blocks are definitely lost
+in loss record 80 of 137
+==5971==    at 0x401BC54: calloc (vg_replace_malloc.c:279)
+==5971==    by 0x40543A6: XtCalloc (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x808EC87: serverPostTimedCallback (server.c:1095)
+==5971==    by 0x80A9D36: Tcl_Eval (tclBasic.c:966)
+==5971==    by 0x80B7097: TclParseNestedCmd (tclParse.c:391)
+==5971==    by 0x80B750A: TclParseWords (tclParse.c:668)
+==5971==    by 0x80A98CF: Tcl_Eval (tclBasic.c:846)
+==5971==    by 0x808D8A7: ServerEvaluate (server.c:308)
+==5971==    by 0x808B917: ObmDeliverMsg (Obm.c:457)
+==5971==    by 0x804FD9B: main (super.c:188)
+==5971== 
+==5971== 
+==5971== 4,987 (372 direct, 4,615 indirect) bytes in 1 blocks are definitely
+lost in loss record 104 of 137
+==5971==    at 0x401A826: malloc (vg_replace_malloc.c:149)
+==5971==    by 0x80B115A: EnvInit (tclEnv.c:523)
+==5971==    by 0x80B0B93: TclSetupEnv (tclEnv.c:122)
+==5971==    by 0x80A8F40: Tcl_CreateInterp (tclBasic.c:222)
+==5971==    by 0x808CC3C: ParameterClassInit (param.c:109)
+==5971==    by 0x808AFFE: ObmOpen (Obm.c:131)
+==5971==    by 0x804F8D0: main (super.c:105)
+==5971== 
+==5971== 
+==5971== 1,442 bytes in 61 blocks are definitely lost in loss record 112 of
+137
+==5971==    at 0x401BC54: calloc (vg_replace_malloc.c:279)
+==5971==    by 0x8070C66: mbusRecv (mbRecv.c:74)
+==5971==    by 0x8051D9E: mbusMsgHandler (supIO.c:149)
+==5971==    by 0x406EFF2: (within /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x406F501: XtAppNextEvent (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x4063ACB: XtAppMainLoop (in /usr/X11R6/lib/libXt.so.6.0)
+==5971==    by 0x804FDF2: main (super.c:217)
+==5971== 
+==5971== 
+==5971== 8,324 bytes in 4 blocks are possibly lost in loss record 125 of 137
+==5971==    at 0x401A826: malloc (vg_replace_malloc.c:149)
+==5971==    by 0x808607D: da_new (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x808149B: fr_new (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x80805E7: pmsg_unpack (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x807E07C: pvm_upkmesg (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x807892E: pvm_recvinfo (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x8087964: gs_getgstid (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x80886B4: int_query_server (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x8087AA5: pvm_joingroup (in /home/fitz/ndhs/dhssup/super)
+==5971==    by 0x80703C1: mbusInitialize (mbInit.c:70)
+==5971==    by 0x806E9DB: mbusConnect (mbConnect.c:56)
+==5971==    by 0x8050446: sup_clientOpen (supClient.c:111)
+==5971== 
+==5971== LEAK SUMMARY:
+==5971==    definitely lost: 2,163 bytes in 128 blocks.
+==5971==    indirectly lost: 4,861 bytes in 93 blocks.
+==5971==      possibly lost: 8,340 bytes in 5 blocks.
+==5971==    still reachable: 1,625,832 bytes in 8,981 blocks.
+==5971==         suppressed: 0 bytes in 0 blocks.
+==5971== Reachable blocks (those to which a pointer was found) are not shown.
+==5971== To see them, rerun with: --leak-check=full --show-reachable=yes
+

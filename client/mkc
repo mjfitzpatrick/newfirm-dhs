@@ -1,0 +1,12 @@
+gcc -m32 -g -o client -w \
+    client.c pTime.c \
+    -I../include -I/MNSN/soft_dev/inc \
+    -D__MNSNERR__ -D_MNSN_STD_HDR_ -D_shmUtil_H_ \
+    ../lib/dhslib/dhslib.a ../lib/dcalib/dcalib.a \
+    -L/MNSN/soft_dev/lib/ -lsockUtil  \
+
+cp client ../bin
+
+
+#gcc -m32 -g -o client client.c pTime.c -I../lib/dhslib -I/MNSN/soft_dev/inc ../lib/dhslib/dhslib.a ../lib/dcalib/dcalib.a ../lib/socklib/socklib.a -I../lib/dcalib -I../lib/dhslib -L/MNSN/soft_dev/lib -lcmdCfgUtil -lshmUtil -lsockUtil -lpanUtil -lppxCmnds -ldetCmnds -lcliUtil -lmiscUtil -ldheUtil -lcomUtil -lqueUtil -lsemUtil -lcomHdwr -ldheHdwr -ltcl -lmsdUtil  -lmsgUtil 
+

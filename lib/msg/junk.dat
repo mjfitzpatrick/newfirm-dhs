@@ -1,0 +1,15 @@
+gcc -g -m32 -w -I/home/ndhs/lib/msg -I..//pvm3//include -L..//pvm3//lib/LINUXI386 -DLINUX -o zzdebug zzdebug.c -L. -lmbus -lgpvm3 -lpvm3 -lm -lc
+..//pvm3//lib/LINUXI386/libpvm3.a(lpvmgen.o)(.text+0x2ad): In function `pvmlogperror':
+: warning: `sys_errlist' is deprecated; use `strerror' or `strerror_r' instead
+..//pvm3//lib/LINUXI386/libpvm3.a(lpvmgen.o)(.text+0x2a4): In function `pvmlogperror':
+: warning: `sys_nerr' is deprecated; use `strerror' or `strerror_r' instead
+gcc -g -m32 -w -I/home/ndhs/lib/msg -I..//pvm3//include -L..//pvm3//lib/LINUXI386 -DLINUX -o zzsup zzsup.c -L. -lmbus -lgpvm3 -lpvm3 -lm -lc
+..//pvm3//lib/LINUXI386/libpvm3.a(lpvmgen.o)(.text+0x2ad): In function `pvmlogperror':
+: warning: `sys_errlist' is deprecated; use `strerror' or `strerror_r' instead
+..//pvm3//lib/LINUXI386/libpvm3.a(lpvmgen.o)(.text+0x2a4): In function `pvmlogperror':
+: warning: `sys_nerr' is deprecated; use `strerror' or `strerror_r' instead
+gcc -g -m32 -w -I/home/ndhs/lib/msg -I..//pvm3//include -L..//pvm3//lib/LINUXI386 -DLINUX -o zzclient zzclient.c -L. -lmbus -lgpvm3 -lpvm3 -lm -lc
+..//pvm3//lib/LINUXI386/libpvm3.a(lpvmgen.o)(.text+0x2ad): In function `pvmlogperror':
+: warning: `sys_errlist' is deprecated; use `strerror' or `strerror_r' instead
+..//pvm3//lib/LINUXI386/libpvm3.a(lpvmgen.o)(.text+0x2a4): In function `pvmlogperror':
+: warning: `sys_nerr' is deprecated; use `strerror' or `strerror_r' instead

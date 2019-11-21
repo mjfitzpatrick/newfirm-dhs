@@ -1,0 +1,4 @@
+#!/bin/csh -f 
+
+#exec valgrind --leak-check=full --show-reachable=yes ~/ndhs/bin/collector -console -mbus -host nfdhs-02 -port 4577 -debug 60 -id PanB |& tee /tmp/collector.log
+exec ~/ndhs/bin/collector -console -mbus -host nfdhs-02 -port 4577 -debug 60 -id PanB |& tee /tmp/collector.log

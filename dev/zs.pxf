@@ -1,0 +1,4 @@
+#!/bin/csh -f 
+
+exec ~/ndhs/bin/pxf -console -host nfdhs-01 -mbus -debug 60 -proc PanA,NOCS |& tee /tmp/pxf.log
+#exec valgrind --leak-check=full --show-reachable=yes ~/ndhs/bin/pxf -console -host nfdhs-01 -mbus -debug 60 -proc PanA,NOCS |& tee /tmp/pxf.log

@@ -1,0 +1,47 @@
+#!/bin/csh -f 
+
+# Set the location of the system to help in configuring the machine names.
+# The location is simply a 2-character code stored in the '_location' file
+# in the top directory, values may be:
+#
+#	"CR"		=> Tucson Clean Room
+#	"FR"		=> Tucson Flex Rig
+#	"KP"		=> KPNO 4-meter
+#	"CT"		=> CTIO 4-meter
+#
+setenv LOC	`cat /ndhs/_location`
+
+#-------------------------------------------------------------------------------
+
+chdir /ndhs
+
+if ("$1" == "-n") then
+    echo "nfdhs-01..." ; rsync -nCavz . nfdhs-01${LOC}:/ndhs
+    echo "nfdhs-02..." ; rsync -nCavz . nfdhs-02${LOC}:/ndhs
+    echo "nfdca..."    ; rsync -nCavz . nfdca${LOC}:/ndhs
+    exit
+endif
+
+if ("$1" == "-f") then
+    echo "Removing old version on remote machines...."
+    ssh nfdhs-01${LOC} /bin/rm -rf /ndhs/\*
+    ssh nfdhs-02${LOC} /bin/rm -rf /ndhs/\*
+    ssh nfdca${LOC} /bin/rm -rf /ndhs/\*
+    echo "Done."
+endif
+
+echo "Syncing remote machines...."
+echo "nfdhs-01..." ; rsync -Cavz . nfdhs-01${LOC}:/ndhs
+echo "nfdhs-02..." ; rsync -Cavz . nfdhs-02${LOC}:/ndhs
+echo "nfdca..."    ; rsync -Cavz . nfdca${LOC}:/ndhs
+echo "Done."
+
+
+chdir /home/ndhs.ktm
+
+if ("$1" == "-n") then
+    echo "nfdca..."    ; rsync -nCavz . nfdca${LOC}:/home/ndhs.ktm
+else
+    echo "nfdca..."    ; rsync -Cavz . nfdca${LOC}:/home/ndhs.ktm
+endif
+
